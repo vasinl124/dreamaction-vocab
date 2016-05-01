@@ -1,0 +1,25 @@
+<div class="container">
+  {{> ad}}
+  <div class="page-header">
+    <h1> <span><img src="http://placehold.it/50x50" alt="" /></span>  {{category_name}}</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <ul class="list-group">
+        {{#each docs}}
+          <li class="list-group-item">
+            <a class='category-list' href="/vocab/{{_id}}">{{word}}</a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="col-sm-4">
+      {{> sidebar}}
+    </div>
+  </div>
+
+  {{> ad}}
+
+</div>

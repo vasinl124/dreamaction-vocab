@@ -1,0 +1,13 @@
+/*.page-header > * {
+    float:left;
+    margin-right:5px;
+}*/
+
+.category-list {
+  color: black;
+}
+
+.category-list: hover {
+  text-decoration: none;
+  color: #EF660A;
+}

@@ -1,0 +1,28 @@
+.category-header {
+  background-color: black;
+  padding: 10px;
+  color: white;
+}
+.categories-container a {
+  color: black;
+}
+
+.categories-container a:hover {
+  color: #EF660A;
+}
+
+.category-block {
+  background-color: lightgray;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.category-block h4 {
+  text-transform: uppercase;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+ }

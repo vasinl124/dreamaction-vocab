@@ -1,0 +1,17 @@
+.vocab-container {
+  background-color: #EF660A;
+  margin-top: 20px;
+  color: white;
+  padding: 20px;
+  border: lightgray solid 10px;
+}
+
+.vocab-container hr {
+  background-color: lightgray;
+  height: 3px;
+  width: 20%;
+}
+
+.vocab-container p {
+  color: black;
+}

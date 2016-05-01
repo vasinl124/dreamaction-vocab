@@ -1,0 +1,15 @@
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    /*width: 100%;*/
+
+    max-height: 450px;
+}
+
+
+.carousel-inner {
+  background-color: black;
+}
+
+.carousel-inner h3 {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}

@@ -1,0 +1,21 @@
+hr {
+  background-color: black;
+  height: 3px;
+  width: 20%;
+}
+
+.wordoftheday {
+  color: #EF660A;
+  text-decoration: none;
+
+}
+
+.wordoftheday:hover{
+  color: black;
+
+}
+
+.wordoftheday h2 {
+  text-transform: uppercase;
+  font-size: 55px;
+}

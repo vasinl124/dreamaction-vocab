@@ -1,10 +1,10 @@
 'use strict';
 
 let express = require('express');
-let bodyParser = require('body-parser');
 let app = express();
 
 let hbs = require('hbs');
+let bcrypt = require('bcryptjs');
 
 let PouchDB = require('pouchdb');
 PouchDB.plugin(require('pouchdb-find'));
@@ -12,6 +12,7 @@ PouchDB.plugin(require('pouchdb-find'));
 
 let vocabDB = new PouchDB('http://127.0.0.1:15984/vocabDB');
 let categoryDB = new PouchDB('http://127.0.0.1:15984/categoryDB');
+let userDB = new PouchDB('http://127.0.0.1:15984/userDB');
 
 // categoryDB.put({
 //   _id: 'environment',
@@ -22,47 +23,117 @@ let categoryDB = new PouchDB('http://127.0.0.1:15984/categoryDB');
 //   console.log(err);
 // })
 
-vocabDB.createIndex({
-  index: {
-    fields: ['category']
-  }
-}).then(function (result) {
-  console.log("result", result);
-  // yo, a result
-}).catch(function (err) {
-  console.log("err", err);
-  // ouch, an error
-});
+// signup();
+// function signup() {
+//   var salt = bcrypt.genSaltSync(10);
+//
+//   userDB.post({
+//     username: 'jomjom',
+//     password: bcrypt.hashSync('#damnshit', salt)
+//   }, function(err, response){
+//     if(err) {
+//       return console.log(er)
+//     } else {
+//       console.log(response);
+//     }
+//   })
+// }
 
-// let passport = require('passport');
+// userDB.createIndex({
+//     index: {
+//       fields: ['username', 'password']
+//     }
+// }).then(function (result) {
+//   console.log("result", result);
+//   // yo, a result
+// }).catch(function (err) {
+//   console.log("err", err);
+//   // ouch, an error
+// });
+//
+//
+// vocabDB.createIndex({
+//   index: {
+//     fields: ['category']
+//   }
+// }).then(function (result) {
+//   console.log("result", result);
+//   // yo, a result
+// }).catch(function (err) {
+//   console.log("err", err);
+//   // ouch, an error
+// });
+
+let passport = require('passport');
+let LocalStrategy = require('passport-local').Strategy;
 // let FacebookStrategy = require('passport-facebook').Strategy;
 // let GoogleStrategy = require('passport-google-oauth').Strategy;
 //
-// let cookieParser = require('cookie-parser');
-// let bodyParser = require('body-parser');
-// let expressSession = require('express-session');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let expressSession = require('express-session');
 
-// app.use(cookieParser());
-// app.use(bodyParser());
-// app.use(expressSession({ secret: 'keyboard cat' }));
-// app.use(passport.initialize());
-// app.use(passport.session());
 
-// // used to serialize the user for the session
-// passport.serializeUser(function(user, done) {
-//   console.log(user);
-//     done(null, user.id);
-// });
-//
-// // used to deserialize the user
-// passport.deserializeUser(function(id, done) {
-//   console.log("id: ", id);
-//   done(null, id);
-//     // User.findById(id, function(err, user) {
-//     //     done(err, user);
-//     // });
-// });
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(expressSession({
+  secret: 'MySèCRêTTOKENDüde',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
+// used to serialize the user for the session
+passport.serializeUser(function(user, done) {
+  console.log(user);
+    done(null, user._id);
+});
+
+// used to deserialize the user
+passport.deserializeUser(function(id, done) {
+  console.log("id: ", id);
+  userDB.find({
+    selector: {
+      _id : {'$eq': id}
+    }
+  }).then(function(res){
+    done(null, res.docs[0]);
+  }).catch(function(err){
+    console.log(err);
+  })
+
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+
+    userDB.find({
+      selector: {
+        username : {'$eq': username}
+      }
+    }).then(function(res){
+      if (bcrypt.compareSync(`#${password}`, res.docs[0].password)){
+        done(null, res.docs[0]);
+      } else {
+        done(null, 'failed authenticated');
+      }
+    }).catch(function(err){
+      console.log(err);
+    })
+  }
+));
+
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+    console.log("isAuthenticated: ", req.isAuthenticated());
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/login');
+}
 
 // passport.use(new FacebookStrategy({
 //     clientID: '216032315415124',
@@ -98,6 +169,7 @@ app.listen(3000,function(){
   console.log('App is listening on port 3000');
 })
 
+// API END POINT
 app.get('/', function(req, res){
   categoryDB.allDocs({include_docs: true}).then(function(result){
     console.log(result);
@@ -150,7 +222,7 @@ app.get('/category/:id', function(req, res){
 })
 
 
-app.get('/admin', function(req, res){
+app.get('/admin', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
     return 'admin';
@@ -187,9 +259,26 @@ app.post('/addVocab', function(req, res){
 })
 
 
-app.get('/login');
-app.post('/login');
-app.post('/logout');
+// LOGIN AUTH END POINT
+app.get('/login',function(req, res){
+  var result = {};
+  result.view = function(){
+    return 'login';
+  }
+  res.render('index', result);
+});
+
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/admin');
+  });
+
+
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/login');
+});
 
 
 //

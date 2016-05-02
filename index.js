@@ -172,18 +172,11 @@ app.listen(3000,function(){
 // API END POINT
 app.get('/', function(req, res){
   categoryDB.allDocs({include_docs: true}).then(function(result){
-    console.log(result);
-
-
-
     vocabDB.allDocs().then(function (res) {
       var ids = res.rows.map(function (row) { return row.id; });
       var index = Math.floor(Math.random() * ids.length);
       return vocabDB.get(ids[index]);
     }).then(function (randomDoc) {
-
-      console.log(randomDoc);
-
       result.randomDoc = randomDoc;
       result.view = function(){
         return 'main';

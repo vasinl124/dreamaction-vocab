@@ -1,12 +1,23 @@
 {{doc.message}}
-<form action="addVocab" method="post">
-  Word: <input type="text" name="word"><br>
-  Def: <input type="text" name="definition"><br>
-  Example: <input type="text" name="example"><br>
-  Category: <input type="text" name="category"><br>
-  <input type="submit" value="Submit">
-</form>
+<div class="container">
+  <div class="page-header">
+    <h1> Add Vocab</h1>
+  </div>
 
-<form class="" action="logout" method="get">
-  <input type="submit" value="Logout">
-</form>
+  <div class="row">
+    <form action="addVocab" method="post">
+      Word: <input type="text" name="word"><br>
+      Def: <textarea type="text" name="definition"></textarea><br>
+      Example: <textarea type="text" name="example"></textarea><br>
+      Category: <input type="text" name="category"><br>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <div class="row">
+    <br>
+    <form class="" action="logout" method="get">
+      <input type="submit" value="Logout">
+    </form>
+  </div>
+</div>

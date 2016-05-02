@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/css/category.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="/css/featurepost.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="/css/vocab.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/css/sidebar.css" media="screen" title="no title" charset="utf-8">
 
   </head>
   <body>
@@ -31,6 +32,23 @@
 
     {{> footer}}
 
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '214316472233662',
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->

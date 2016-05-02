@@ -173,10 +173,23 @@ app.listen(3000,function(){
 app.get('/', function(req, res){
   categoryDB.allDocs({include_docs: true}).then(function(result){
     console.log(result);
-    result.view = function(){
-      return 'main';
-    }
-    res.render('index', result);
+
+
+
+    vocabDB.allDocs().then(function (res) {
+      var ids = res.rows.map(function (row) { return row.id; });
+      var index = Math.floor(Math.random() * ids.length);
+      return vocabDB.get(ids[index]);
+    }).then(function (randomDoc) {
+
+      console.log(randomDoc);
+
+      result.randomDoc = randomDoc;
+      result.view = function(){
+        return 'main';
+      }
+      res.render('index', result);
+    }).catch(console.log.bind(console));
   })
 })
 
@@ -190,35 +203,41 @@ app.get('/vocab/:id', function(req, res){
 })
 
 app.get('/category/:id', function(req, res){
-    if(req.params.id !== 'All') {
-      vocabDB.find({
-        selector: {category: {$eq: req.params.id}},
-        fields: ['_id', 'category', 'word', 'definition'],
-        sort: ['category']
-      }).then(function (result) {
-        result.view = function(){
-          return 'category';
-        }
-        result.category_name = req.params.id;
-        res.render('index', result);
-      }).catch(function (err) {
-        console.log("err -->", err);
-      });
-    } else {
-      vocabDB.find({
-        selector: {_id : {$gt : null }},
-        fields: ['_id', 'category', 'word', 'definition'],
-        sort: ['_id']
-      }).then(function (result) {
-        result.view = function(){
-          return 'category';
-        }
-        res.render('index', result);
-      }).catch(function (err) {
-        console.log("err -->", err);
-      });
-    }
 
+  function myMapFunction(doc){
+    emit(doc.category);
+  }
+  if (req.params.id !== 'All'){
+    vocabDB.query(myMapFunction , {
+      startkey: [req.params.id]
+      , endkey: [req.params.id, {}],
+      include_docs : true
+    }).then(function(result){
+      console.log(result);
+
+      result.view = function(){
+        return 'category';
+      }
+      result.category_name = req.params.id;
+      res.render('index', result);
+    }).catch(function(err){
+      console.log(err);
+    })
+  } else {
+    vocabDB.query(myMapFunction , {
+      include_docs : true
+    }).then(function(result){
+      console.log(result);
+
+      result.view = function(){
+        return 'category';
+      }
+      result.category_name = req.params.id;
+      res.render('index', result);
+    }).catch(function(err){
+      console.log(err);
+    })
+  }
 })
 
 
@@ -243,7 +262,7 @@ app.post('/addVocab', function(req, res){
       word: req.body.word,
       definition: req.body.definition,
       example: req.body.example,
-      category: req.body.category
+      category: [req.body.category]
     }).then(function (response) {
       doc.message = 'Success!!';
       // handle response

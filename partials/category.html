@@ -7,9 +7,9 @@
   <div class="row">
     <div class="col-sm-8">
       <ul class="list-group">
-        {{#each docs}}
+        {{#each rows}}
           <li class="list-group-item">
-            <a class='category-list' href="/vocab/{{_id}}">{{word}}</a>
+            <a class='category-list' href="/vocab/{{doc._id}}">{{doc.word}}</a>
           </li>
         {{/each}}
       </ul>

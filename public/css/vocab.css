@@ -1,7 +1,11 @@
+.vocab-container h1 {
+  text-transform: uppercase;
+  font-size: 40px;
+}
 .vocab-container {
-  background-color: #EF660A;
+  /*background-color: #EF660A;*/
   margin-top: 20px;
-  color: white;
+  color: black;
   padding: 20px;
   border: lightgray solid 10px;
 }
@@ -13,5 +17,10 @@
 }
 
 .vocab-container p {
+  font-size: 20px;
   color: black;
+}
+
+.category-link, .category-link:hover {
+  text-decoration: none;
 }

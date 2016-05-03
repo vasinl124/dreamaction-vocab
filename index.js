@@ -10,9 +10,19 @@ let PouchDB = require('pouchdb');
 PouchDB.plugin(require('pouchdb-find'));
 
 
+
 let vocabDB = new PouchDB('http://127.0.0.1:15984/vocabDB');
 let categoryDB = new PouchDB('http://127.0.0.1:15984/categoryDB');
 let userDB = new PouchDB('http://127.0.0.1:15984/userDB');
+
+// let vocabDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/vocabdb');
+// let categoryDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/categorydb');
+// let userDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/userdb');
+
+PouchDB.sync('http://127.0.0.1:15984/vocabDB','http://admin:damnshit@127.0.0.1:5984/vocabdb');
+PouchDB.sync('http://127.0.0.1:15984/categoryDB','http://admin:damnshit@127.0.0.1:5984/categorydb');
+PouchDB.sync('http://127.0.0.1:15984/userDB','http://admin:damnshit@127.0.0.1:5984/userdb');
+
 
 // categoryDB.put({
 //   _id: 'environment',
@@ -135,24 +145,6 @@ function isLoggedIn(req, res, next) {
     res.redirect('/login');
 }
 
-// passport.use(new FacebookStrategy({
-//     clientID: '216032315415124',
-//     clientSecret: '6a0d77f1a4e2e1c8312bd46dbed89727',
-//     callbackURL: "http://localhost:3000/auth/facebook/callback"
-//   },
-//   function(accessToken, refreshToken, profile, cb) {
-//     console.log('accessToken', accessToken);
-//     console.log('refreshToken', refreshToken);
-//     console.log('profile', profile);
-//     console.log('cb', cb);
-//
-//     return cb(null, profile);
-//     // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-//     //   return cb(err, user);
-//     // });
-//   }
-// ));
-
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
@@ -181,6 +173,9 @@ app.get('/', function(req, res){
       result.view = function(){
         return 'main';
       }
+
+      result.title = 'DreamAction Vocab - รวมคำศัพท์ทางสถาปัตย์เพื่อสถาปนิก';
+
       res.render('index', result);
     }).catch(console.log.bind(console));
   })
@@ -191,6 +186,9 @@ app.get('/vocab/:id', function(req, res){
     doc.view = function(){
       return 'vocab';
     }
+
+    doc.title = `ความหมายของ ${req.params.id} - Dream Action`;
+
     res.render('index', doc);
   })
 })
@@ -211,6 +209,9 @@ app.get('/category/:id', function(req, res){
       result.view = function(){
         return 'category';
       }
+
+      result.title = `คำศัพท์ในหมวด ${req.params.id} - Dream Action`;
+
       result.category_name = req.params.id;
       res.render('index', result);
     }).catch(function(err){
@@ -225,6 +226,8 @@ app.get('/category/:id', function(req, res){
       result.view = function(){
         return 'category';
       }
+
+      result.title = `รวมคำศัพท์ทุกหมวด`;
       result.category_name = req.params.id;
       res.render('index', result);
     }).catch(function(err){

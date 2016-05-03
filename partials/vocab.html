@@ -1,7 +1,7 @@
 <div class="container">
   {{> ad}}
   <div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
+    <div class="col-sm-8">
       <div class="col-sm-12 vocab-container text-center">
         <h1>{{word}}</h1>
 
@@ -9,11 +9,11 @@
 
         <p>{{definition}}</p>
 
-        <span class="label label-default">{{category}}</span>
+        <a class='category-link' href="/category/{{category}}"><h3><span class="label label-default">{{category}}</span></h3></a>
       </div>
     </div>
-
-    <div class="col-sm-12">
+    <div class="col-sm-4">
+      <br>
       {{> sidebar}}
     </div>
   </div>

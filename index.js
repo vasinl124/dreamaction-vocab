@@ -9,20 +9,45 @@ let bcrypt = require('bcryptjs');
 let PouchDB = require('pouchdb');
 PouchDB.plugin(require('pouchdb-find'));
 
-
+let schedule = require('node-schedule');
 
 let vocabDB = new PouchDB('http://127.0.0.1:15984/vocabDB');
 let categoryDB = new PouchDB('http://127.0.0.1:15984/categoryDB');
 let userDB = new PouchDB('http://127.0.0.1:15984/userDB');
+let wordoftheday = new PouchDB('http://127.0.0.1:15984/wordoftheday');
 
-// let vocabDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/vocabdb');
-// let categoryDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/categorydb');
-// let userDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/userdb');
 
-PouchDB.sync('http://127.0.0.1:15984/vocabDB','http://admin:damnshit@127.0.0.1:5984/vocabdb');
-PouchDB.sync('http://127.0.0.1:15984/categoryDB','http://admin:damnshit@127.0.0.1:5984/categorydb');
-PouchDB.sync('http://127.0.0.1:15984/userDB','http://admin:damnshit@127.0.0.1:5984/userdb');
+// PouchDB.sync('http://127.0.0.1:15984/vocabDB','http://admin:damnshit@127.0.0.1:5984/vocabdb');
+// PouchDB.sync('http://127.0.0.1:15984/categoryDB','http://admin:damnshit@127.0.0.1:5984/categorydb');
+// PouchDB.sync('http://127.0.0.1:15984/userDB','http://admin:damnshit@127.0.0.1:5984/userdb');
 
+let j = schedule.scheduleJob('22 22 * * *', function(){
+  console.log('The answer to life, the universe, and everything!');
+
+  vocabDB.allDocs().then(function (res) {
+    var ids = res.rows.map(function (row) { return row.id; });
+    var index = Math.floor(Math.random() * ids.length);
+    console.log(ids[index]);
+    if (ids[index] !== "_design/category_all_query"){
+      return wordoftheday.get('wordoftheday').then(function(doc) {
+        return wordoftheday.put({
+          _id : 'wordoftheday',
+          _rev: doc._rev,
+          word_id : ids[index]
+        });
+      }).then(function(response) {
+      // handle response
+      }).catch(function (err) {
+        console.log("err : ==>", err);
+        wordoftheday.put({
+          _id : 'wordoftheday',
+          word_id : ids[index]
+        });
+      });
+    }
+  }).then(function (res) {
+  }).catch(console.log.bind(console));
+});
 
 // categoryDB.put({
 //   _id: 'environment',
@@ -117,7 +142,6 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-
     userDB.find({
       selector: {
         username : {'$eq': username}
@@ -164,19 +188,16 @@ app.listen(3000,function(){
 // API END POINT
 app.get('/', function(req, res){
   categoryDB.allDocs({include_docs: true}).then(function(result){
-    vocabDB.allDocs().then(function (res) {
-      var ids = res.rows.map(function (row) { return row.id; });
-      var index = Math.floor(Math.random() * ids.length);
-      return vocabDB.get(ids[index]);
-    }).then(function (randomDoc) {
-      result.randomDoc = randomDoc;
-      result.view = function(){
-        return 'main';
-      }
+    wordoftheday.get('wordoftheday').then(function(doc) {
+      vocabDB.get(doc.word_id).then(function(d){
+        result.wordoftheday = d;
+        result.view = function(){
+          return 'main';
+        }
+        result.title = 'DreamAction Vocab - รวมคำศัพท์ทางสถาปัตย์เพื่อสถาปนิก';
 
-      result.title = 'DreamAction Vocab - รวมคำศัพท์ทางสถาปัตย์เพื่อสถาปนิก';
-
-      res.render('index', result);
+        res.render('index', result);
+      })
     }).catch(console.log.bind(console));
   })
 })

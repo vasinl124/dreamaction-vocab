@@ -1,0 +1,10 @@
+.search-container {
+  background-color: black;
+
+}
+
+.search-form {
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 10px;
+}

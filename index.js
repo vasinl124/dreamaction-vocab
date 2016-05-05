@@ -299,7 +299,6 @@ app.get('/search', function(req, res){
   console.log(req.query);
   console.log(req.query.term);
 
-
   function myMapFunctions(doc){
     console.log("======>", doc);
     emit(doc._id, doc.word, doc.definition);
@@ -322,9 +321,6 @@ app.get('/search', function(req, res){
     }).catch(function(err){
       console.log(err);
     })
-
-
-
 
 })
 

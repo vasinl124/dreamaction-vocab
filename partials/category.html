@@ -5,26 +5,27 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col col-sm-8">
       <ul class="list-group">
         {{#each rows}}
           <li class="list-group-item">
             <a class='category-list' href="/vocab/{{doc._id}}">{{doc.word}}</a>
           </li>
+          {{else}}
+          <h1>ยังไม่มีคำศัพท์ในหมวดนี้</h1>
         {{/each}}
       </ul>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col col-sm-4">
       {{> sidebar}}
     </div>
   </div>
 
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col col-sm-12">
         {{> ad}}
     </div>
-
   </div>
 
 

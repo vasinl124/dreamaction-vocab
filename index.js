@@ -294,6 +294,41 @@ app.post('/addVocab', function(req, res){
   res.redirect('admin');
 })
 
+// Search
+app.get('/search', function(req, res){
+  console.log(req.query);
+  console.log(req.query.term);
+
+
+  function myMapFunctions(doc){
+    console.log("======>", doc);
+    emit(doc._id, doc.word, doc.definition);
+  }
+
+    vocabDB.query(myMapFunctions, {
+      startkey: req.query.term.toLowerCase(),
+      endkey: req.query.term.toLowerCase() + '\uffff',
+      // endkey: [req.query.term.toLowerCase(), {}],
+      include_docs : true
+    }).then(function(result){
+      console.log(result);
+      console.log(result.rows);
+      result.view = function(){
+        return 'search';
+      }
+      result.keyword = req.query.term;
+      result.title = `ค้นหาคำศัพท์จากคีย์เวิร์ด ${req.query.term} - Dream Action`;
+      res.render('index', result);
+    }).catch(function(err){
+      console.log(err);
+    })
+
+
+
+
+})
+
+
 
 // LOGIN AUTH END POINT
 app.get('/login',function(req, res){

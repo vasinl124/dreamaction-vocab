@@ -19,6 +19,7 @@
     "express-session": "^1.13.0",
     "hbs": "^4.0.0",
     "hbs-utils": "0.0.3",
+    "memdown": "^1.1.2",
     "node-schedule": "^1.1.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",

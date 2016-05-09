@@ -1,7 +1,7 @@
 {
-  "name": "facebook_test",
+  "name": "Dream Vocab",
   "version": "1.0.0",
-  "description": "just to test facebook API with nodejs",
+  "description": "Dream Vocab",
   "main": "index.js",
   "scripts": {
     "test": "test"

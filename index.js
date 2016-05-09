@@ -11,19 +11,19 @@ PouchDB.plugin(require('pouchdb-find'));
 
 let schedule = require('node-schedule');
 
-// let vocabDB = new PouchDB('http://127.0.0.1:15984/vocabDB');
-// let categoryDB = new PouchDB('http://127.0.0.1:15984/categoryDB');
-// let userDB = new PouchDB('http://127.0.0.1:15984/userDB');
-// let wordoftheday = new PouchDB('http://127.0.0.1:15984/wordoftheday');
-let vocabDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/vocabdb');
-let categoryDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/categorydb');
-let userDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/userdb');
-let wordoftheday = new PouchDB('http://admin:damnshit@127.0.0.1:5984/wordoftheday');
+let vocabDB = new PouchDB('http://127.0.0.1:15984/vocabDB');
+let categoryDB = new PouchDB('http://127.0.0.1:15984/categoryDB');
+let userDB = new PouchDB('http://127.0.0.1:15984/userDB');
+let wordoftheday = new PouchDB('http://127.0.0.1:15984/wordoftheday');
+// let vocabDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/vocabdb');
+// let categoryDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/categorydb');
+// let userDB = new PouchDB('http://admin:damnshit@127.0.0.1:5984/userdb');
+// let wordoftheday = new PouchDB('http://admin:damnshit@127.0.0.1:5984/wordoftheday');
 
-// PouchDB.sync('http://127.0.0.1:15984/vocabDB','http://admin:damnshit@127.0.0.1:5984/vocabdb');
-// PouchDB.sync('http://127.0.0.1:15984/categoryDB','http://admin:damnshit@127.0.0.1:5984/categorydb');
-// PouchDB.sync('http://127.0.0.1:15984/userDB','http://admin:damnshit@127.0.0.1:5984/userdb');
-// PouchDB.sync('http://127.0.0.1:15984/wordoftheday','http://admin:damnshit@127.0.0.1:5984/wordoftheday');
+PouchDB.sync('http://127.0.0.1:15984/vocabDB','http://admin:damnshit@127.0.0.1:5984/vocabdb');
+PouchDB.sync('http://127.0.0.1:15984/categoryDB','http://admin:damnshit@127.0.0.1:5984/categorydb');
+PouchDB.sync('http://127.0.0.1:15984/userDB','http://admin:damnshit@127.0.0.1:5984/userdb');
+PouchDB.sync('http://127.0.0.1:15984/wordoftheday','http://admin:damnshit@127.0.0.1:5984/wordoftheday');
 
 let j = schedule.scheduleJob('22 22 * * *', function(){
   console.log('The answer to life, the universe, and everything!');

@@ -1,3 +1,34 @@
-.test {
+@font-face {
+    font-family: 'cs_prajadregular';
+    src: url('../fonts/prajad/csprajad-webfont.eot');
+    src: url('../fonts/prajad/csprajad-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/prajad/csprajad-webfont.woff2') format('woff2'),
+         url('../fonts/prajad/csprajad-webfont.woff') format('woff'),
+         url('../fonts/prajad/csprajad-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: 'bangna';
+    src: url('../fonts/bangna/bangna-new-webfont.eot');
+    src: url('../fonts/bangna/bangna-new-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bangna/bangna-new-webfont.woff2') format('woff2'),
+         url('../fonts/bangna/bangna-new-webfont.woff') format('woff'),
+         url('../fonts/bangna/bangna-new-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+a {
+	font-family: "bangna";
+  line-height: 1.5;
+}
+
+p, ul, li {
+	font-family: 'cs_prajadregular';
+	font-size: 18px !important;
+  line-height: 1.5;
 }

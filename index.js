@@ -212,7 +212,7 @@ app.get('/', function(req, res){
   })
 })
 
-app.get('/vocab/:id', function(req, res){
+app.get('/term/:id', function(req, res){
   vocabDB.get(req.params.id).then(function(doc){
     doc.view = function(){
       return 'vocab';
@@ -272,7 +272,7 @@ app.get('/category/:id', function(req, res){
 })
 
 
-app.get('/admin', isLoggedIn, function(req, res){
+app.get('/_admin', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
     return 'admin';

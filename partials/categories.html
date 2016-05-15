@@ -3,12 +3,12 @@
     <h3 class="category-header">Categories</h3>
   </div>
 
-  <div class="categories-container">
+  <div class="col-sm-12 categories-container">
     {{#each rows}}
       <a href="/category/{{doc.category}}">
         <div class="col-sm-4 text-center">
           <div class="col-md-12 category-block">
-            <img class='img-responsive center-block' src="http://placehold.it/50x50" alt="" />
+            <img class='img-responsive center-block' src="./img/{{doc.category}}.png" alt="" />
             <h4>{{doc.category}}</h4>
             <p>{{doc.category_thai}}</p>
           </div>
@@ -19,14 +19,12 @@
     <a href="/category/All">
       <div class="col-sm-4 text-center">
         <div class="col-md-12 category-block">
-          <img class='img-responsive center-block' src="http://placehold.it/50x50" alt="" />
+          <img class='img-responsive center-block' src="http://placehold.it/100x100" alt="" />
           <h4>All</h4>
           <p>ทั้งหมด</p>
         </div>
       </div>
     </a>
-
-    <!-- <hr> -->
   </div>
 </div>
 {{> ad}}

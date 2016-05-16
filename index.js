@@ -272,10 +272,10 @@ app.get('/category/:id', function(req, res){
 })
 
 
-app.get('/jomjom', isLoggedIn, function(req, res){
+app.get('/write', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
-    return 'editor';
+    return 'write';
   }
   res.render('index', doc );
 })
@@ -305,7 +305,7 @@ app.post('/addVocab', function(req, res){
   });
   // add success or error message to view...
 
-  res.redirect('_editor');
+  res.redirect('write');
 })
 
 // Search
@@ -352,7 +352,7 @@ app.get('/login',function(req, res){
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/_editor');
+    res.redirect('/write');
   });
 
 

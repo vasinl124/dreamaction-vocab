@@ -272,7 +272,7 @@ app.get('/category/:id', function(req, res){
 })
 
 
-app.get('/_admin', isLoggedIn, function(req, res){
+app.get('/_editor', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
     return 'admin';
@@ -305,7 +305,7 @@ app.post('/addVocab', function(req, res){
   });
   // add success or error message to view...
 
-  res.redirect('admin');
+  res.redirect('_editor');
 })
 
 // Search
@@ -352,7 +352,7 @@ app.get('/login',function(req, res){
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/admin');
+    res.redirect('/_editor');
   });
 
 

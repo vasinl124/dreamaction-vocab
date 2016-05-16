@@ -176,13 +176,13 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/vocab/login');
+    res.redirect('/login');
 }
 
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
-
+app.set('base', '/vocab');
 app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'html');

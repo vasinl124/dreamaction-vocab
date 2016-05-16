@@ -176,13 +176,13 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/login');
+    res.redirect('/vocab/login');
 }
 
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
-app.set('base', '/vocab');
+
 app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'html');
@@ -272,10 +272,10 @@ app.get('/category/:id', function(req, res){
 })
 
 
-app.get('/write', isLoggedIn, function(req, res){
+app.get('/admin', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
-    return 'write';
+    return 'admin';
   }
   res.render('index', doc );
 })
@@ -305,7 +305,7 @@ app.post('/addVocab', function(req, res){
   });
   // add success or error message to view...
 
-  res.redirect('write');
+  res.redirect('/vocab/admin');
 })
 
 // Search
@@ -352,7 +352,7 @@ app.get('/login',function(req, res){
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/write');
+    res.redirect('/vocab/admin');
   });
 
 

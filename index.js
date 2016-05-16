@@ -275,7 +275,7 @@ app.get('/category/:id', function(req, res){
 app.get('/_editor', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
-    return 'admin';
+    return 'editor';
   }
   res.render('index', doc );
 })

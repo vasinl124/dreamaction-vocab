@@ -272,7 +272,7 @@ app.get('/category/:id', function(req, res){
 })
 
 
-app.get('/_editor', isLoggedIn, function(req, res){
+app.get('/jomjom', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
     return 'editor';

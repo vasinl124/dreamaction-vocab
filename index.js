@@ -309,7 +309,7 @@ app.post('/addVocab', function(req, res){
 })
 
 // Search
-app.get('search', function(req, res){
+app.get('/search', function(req, res){
   console.log(req.query);
   console.log(req.query.term);
 
@@ -341,7 +341,7 @@ app.get('search', function(req, res){
 
 
 // LOGIN AUTH END POINT
-app.get('login',function(req, res){
+app.get('/login',function(req, res){
   var result = {};
   result.view = function(){
     return 'login';
@@ -349,14 +349,14 @@ app.get('login',function(req, res){
   res.render('index', result);
 });
 
-app.post('login',
+app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('admin');
   });
 
 
-app.get('logout', function(req, res) {
+app.get('/logout', function(req, res) {
   req.logout();
   res.redirect('login');
 });

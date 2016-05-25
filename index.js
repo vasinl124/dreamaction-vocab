@@ -212,7 +212,7 @@ app.get('/', function(req, res){
   })
 })
 
-app.get('term/:id', function(req, res){
+app.get('/term/:id', function(req, res){
   vocabDB.get(req.params.id).then(function(doc){
     doc.view = function(){
       return 'vocab';
@@ -224,7 +224,7 @@ app.get('term/:id', function(req, res){
   })
 })
 
-app.get('category/:id', function(req, res){
+app.get('/category/:id', function(req, res){
 
   function myMapFunction(doc){
     console.log(doc)
@@ -272,7 +272,7 @@ app.get('category/:id', function(req, res){
 })
 
 
-app.get('admin', isLoggedIn, function(req, res){
+app.get('/admin', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
     return 'admin';
@@ -281,7 +281,7 @@ app.get('admin', isLoggedIn, function(req, res){
 })
 
 
-app.post('addVocab', function(req, res){
+app.post('/addVocab', function(req, res){
   //add to database
   vocabDB.get(req.body.word.toLowerCase()).then(function(doc) {
     console.log("doc", doc);

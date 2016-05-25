@@ -176,7 +176,7 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/vocab/login');
+    res.redirect('login');
 }
 
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -212,7 +212,7 @@ app.get('/', function(req, res){
   })
 })
 
-app.get('/term/:id', function(req, res){
+app.get('term/:id', function(req, res){
   vocabDB.get(req.params.id).then(function(doc){
     doc.view = function(){
       return 'vocab';
@@ -224,7 +224,7 @@ app.get('/term/:id', function(req, res){
   })
 })
 
-app.get('/category/:id', function(req, res){
+app.get('category/:id', function(req, res){
 
   function myMapFunction(doc){
     console.log(doc)
@@ -272,7 +272,7 @@ app.get('/category/:id', function(req, res){
 })
 
 
-app.get('/admin', isLoggedIn, function(req, res){
+app.get('admin', isLoggedIn, function(req, res){
   var doc = {};
   doc.view = function(){
     return 'admin';
@@ -281,7 +281,7 @@ app.get('/admin', isLoggedIn, function(req, res){
 })
 
 
-app.post('/addVocab', function(req, res){
+app.post('addVocab', function(req, res){
   //add to database
   vocabDB.get(req.body.word.toLowerCase()).then(function(doc) {
     console.log("doc", doc);
@@ -305,11 +305,11 @@ app.post('/addVocab', function(req, res){
   });
   // add success or error message to view...
 
-  res.redirect('/vocab/admin');
+  res.redirect('admin');
 })
 
 // Search
-app.get('/search', function(req, res){
+app.get('search', function(req, res){
   console.log(req.query);
   console.log(req.query.term);
 
@@ -341,7 +341,7 @@ app.get('/search', function(req, res){
 
 
 // LOGIN AUTH END POINT
-app.get('/login',function(req, res){
+app.get('login',function(req, res){
   var result = {};
   result.view = function(){
     return 'login';
@@ -349,16 +349,16 @@ app.get('/login',function(req, res){
   res.render('index', result);
 });
 
-app.post('/login',
+app.post('login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/vocab/admin');
+    res.redirect('admin');
   });
 
 
-app.get('/logout', function(req, res) {
+app.get('logout', function(req, res) {
   req.logout();
-  res.redirect('/login');
+  res.redirect('login');
 });
 
 
